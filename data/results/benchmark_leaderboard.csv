@@ -1,0 +1,12 @@
+Model,ROC-AUC,PR-AUC,F1-Score,Precision,Recall,Accuracy,Hits@10%
+XGBoost,0.976,0.9746,0.9287,0.9291,0.9283,0.9287,0.998
+LightGBM,0.9759,0.9741,0.9273,0.9271,0.9275,0.9273,0.9959
+Random Forest,0.9754,0.9733,0.9275,0.9244,0.9307,0.9273,0.998
+Logistic Regression,0.9744,0.9734,0.9234,0.9269,0.9198,0.9237,1.0
+Multi-Layer Perceptron (MLP),0.9738,0.9722,0.9238,0.9242,0.9235,0.9239,0.998
+Spectral GCN,0.9737,0.9724,0.923,0.9262,0.9198,0.9232,1.0
+Heuristic (resource_allocation),0.9727,0.9702,0.0,0.0,0.0,0.5,0.998
+Heuristic (adamic_adar),0.9679,0.9629,0.0048,1.0,0.0024,0.5012,0.9939
+Heuristic (common_neighbors),0.9647,0.9566,0.0145,1.0,0.0073,0.5036,0.9919
+Heuristic (jaccard_coefficient),0.9609,0.9471,0.0279,0.9459,0.0142,0.5067,0.9757
+Heuristic (preferential_attachment),0.7966,0.8222,0.0,0.0,0.0,0.5,0.9838
