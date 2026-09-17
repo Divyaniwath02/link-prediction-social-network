@@ -36,11 +36,12 @@ python run_experiments.py
 streamlit run app.py
 ```
 
-### 4. Deploy to Render (Cloud)
-This repository includes a `render.yaml` blueprint configured for Render's **Free Web Service tier**.
-- **Build Command**: `pip install -r requirements.txt`
-- **Start Command**: `streamlit run app.py --server.port=$PORT --server.address=0.0.0.0`
-- **Environment**: Python 3.10+
+### 4. Deploy to Streamlit Community Cloud (Free Cloud Hosting)
+1. Go to **[share.streamlit.io](https://share.streamlit.io/)** and sign in with GitHub.
+2. Select **Repository**: `Divyaniwath02/link-prediction-social-network`
+3. Select **Branch**: `main`
+4. Set **Main file path**: `app.py`
+5. Click **Deploy!**
 
 ---
 
