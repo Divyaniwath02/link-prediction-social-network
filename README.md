@@ -31,10 +31,16 @@ pip install -r requirements.txt
 python run_experiments.py
 ```
 
-### 3. Launch Interactive Web Dashboard
+### 3. Launch Interactive Web Dashboard (Local)
 ```bash
 streamlit run app.py
 ```
+
+### 4. Deploy to Render (Cloud)
+This repository includes a `render.yaml` blueprint configured for Render's **Free Web Service tier**.
+- **Build Command**: `pip install -r requirements.txt`
+- **Start Command**: `streamlit run app.py --server.port=$PORT --server.address=0.0.0.0`
+- **Environment**: Python 3.10+
 
 ---
 
