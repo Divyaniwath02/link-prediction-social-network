@@ -211,8 +211,13 @@ def train_model_zoo(data_dict: dict) -> dict:
     return models
 
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
 def save_models_bundle(models: dict, pipeline_obj, save_dir: str = "data/saved_models"):
     """Saves trained models and pipeline to disk."""
+    if not os.path.isabs(save_dir):
+        save_dir = os.path.join(BASE_DIR, save_dir)
     os.makedirs(save_dir, exist_ok=True)
     bundle_path = os.path.join(save_dir, "link_prediction_bundle.joblib")
     bundle = {
@@ -226,6 +231,8 @@ def save_models_bundle(models: dict, pipeline_obj, save_dir: str = "data/saved_m
 
 def load_models_bundle(bundle_path: str = "data/saved_models/link_prediction_bundle.joblib"):
     """Loads trained model bundle from disk."""
+    if not os.path.isabs(bundle_path):
+        bundle_path = os.path.join(BASE_DIR, bundle_path)
     if not os.path.exists(bundle_path):
         raise FileNotFoundError(f"Model bundle not found at {bundle_path}")
     bundle = joblib.load(bundle_path)

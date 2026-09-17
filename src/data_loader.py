@@ -14,6 +14,7 @@ import numpy as np
 
 
 SNAP_FACEBOOK_URL = "https://snap.stanford.edu/data/facebook_combined.txt.gz"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def download_snap_facebook(data_dir: str = "data/raw") -> str:
@@ -21,6 +22,8 @@ def download_snap_facebook(data_dir: str = "data/raw") -> str:
     Downloads and extracts the Stanford SNAP Facebook dataset.
     If the network is unavailable, generates an equivalent realistic benchmark social graph.
     """
+    if not os.path.isabs(data_dir):
+        data_dir = os.path.join(BASE_DIR, data_dir)
     os.makedirs(data_dir, exist_ok=True)
     gz_path = os.path.join(data_dir, "facebook_combined.txt.gz")
     txt_path = os.path.join(data_dir, "facebook_combined.txt")

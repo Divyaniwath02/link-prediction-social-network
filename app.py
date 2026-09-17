@@ -25,6 +25,16 @@ from src.models import train_model_zoo, save_models_bundle, load_models_bundle
 from src.evaluator import evaluate_all_models, get_feature_importances
 from src.recommender import recommend_friends_for_user, analyze_user_pair
 
+# ---------------- STREAMLIT PAGE CONFIG ----------------
+st.set_page_config(
+    page_title="Link Prediction in Social Networks | ML PBL",
+    page_icon="🕸️",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 # ---------------- VISUALIZATION & HELPER FUNCTIONS ----------------
 
@@ -298,15 +308,7 @@ def plot_link_prediction_matrix_plotly(nodes_subset: list, G: nx.Graph, pipeline
     return fig
 
 
-# ---------------- PAGE CONFIG & STYLES ----------------
-
-st.set_page_config(
-    page_title="Link Prediction in Social Networks | ML PBL",
-    page_icon="🕸️",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
+# ---------------- CUSTOM STYLES ----------------
 st.markdown("""
 <style>
     .main-header {
@@ -365,7 +367,7 @@ def get_or_train_pipeline(dataset_name: str = "facebook_ego", sample_nodes: int 
     if custom_bytes is not None:
         G = load_custom_graph(custom_bytes)
     else:
-        bundle_path = "data/saved_models/link_prediction_bundle.joblib"
+        bundle_path = os.path.join(BASE_DIR, "data", "saved_models", "link_prediction_bundle.joblib")
         if os.path.exists(bundle_path) and dataset_name == "facebook_ego" and sample_nodes == 800:
             try:
                 models, pipeline = load_models_bundle(bundle_path)
@@ -575,7 +577,7 @@ with tabs[1]:
         sub_G = G.subgraph(ego_nodes).copy()
         comm_map = pipeline.precomputed_structures.get("community_map", {})
         
-        net = Network(height="480px", width="100%", bgcolor="#0f172a", font_color="#e2e8f0")
+        net = Network(height="480px", width="100%", bgcolor="#0f172a", font_color="#e2e8f0", cdn_resources="remote")
         net.force_atlas_2based(gravity=-60, central_gravity=0.01, spring_length=90, spring_strength=0.08)
         
         community_colors = ["#38bdf8", "#818cf8", "#c084fc", "#f43f5e", "#fb923c", "#4ade80", "#e879f9", "#22d3ee"]
@@ -592,13 +594,7 @@ with tabs[1]:
         for u, v in sub_G.edges():
             net.add_edge(u, v, color="rgba(148, 163, 184, 0.4)", width=1.5)
             
-        html_path = "data/results/temp_network.html"
-        os.makedirs(os.path.dirname(html_path), exist_ok=True)
-        net.save_graph(html_path)
-        
-        with open(html_path, "r", encoding="utf-8") as f:
-            html_content = f.read()
-            
+        html_content = net.generate_html()
         components.html(html_content, height=500, scrolling=False)
         st.caption(f"Viewing User **{subgraph_user}** ego-network with {sub_G.number_of_nodes()} users and {sub_G.number_of_edges()} connections.")
 

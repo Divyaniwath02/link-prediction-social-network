@@ -77,15 +77,18 @@ def run_pipeline(dataset_name: str = "facebook_ego", sample_nodes: int = 800, us
         print(fi_df.head(8).to_string(index=False))
     
     # Save artifacts
-    os.makedirs("data/results", exist_ok=True)
-    os.makedirs("data/saved_models", exist_ok=True)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    results_dir = os.path.join(base_dir, "data", "results")
+    saved_models_dir = os.path.join(base_dir, "data", "saved_models")
+    os.makedirs(results_dir, exist_ok=True)
+    os.makedirs(saved_models_dir, exist_ok=True)
     
-    leaderboard_df.to_csv("data/results/benchmark_leaderboard.csv", index=False)
-    save_models_bundle(models, pipeline, save_dir="data/saved_models")
+    leaderboard_df.to_csv(os.path.join(results_dir, "benchmark_leaderboard.csv"), index=False)
+    save_models_bundle(models, pipeline, save_dir=saved_models_dir)
     
     elapsed = round(time.time() - start_time, 2)
     print(f"\n[Completed] Entire pipeline finished in {elapsed} seconds!")
-    print("Results saved to 'data/results/' and models saved to 'data/saved_models/'")
+    print(f"Results saved to '{results_dir}' and models saved to '{saved_models_dir}'")
     return leaderboard_df, models, pipeline, data_dict
 
 
